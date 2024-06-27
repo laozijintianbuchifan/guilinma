@@ -69,5 +69,19 @@ headers = {
 }
 
 response = requests.request("POST", url, headers=headers, data=payload)
-st.write(response.text)
+data = response.json()
+
+for i in range(0,30): 
+    flights_data = data['routes'][i]
+    flightNoname = (flights_data['flights'][0])['flightNo']
+    aportname = flights_data['flights'][0]['aport']['name']
+    dportname = flights_data['flights'][0]['dport']['name']
+    dtime_date = (flights_data['flights'][0])['dtime']
+    atime_date = (flights_data['flights'][0])['atime']
+    st.write(flightNoname)
+    st.write(aportname)
+    st.write(dportname)
+    st.write(dtime_date)
+    st.write(atime_date)
+
 

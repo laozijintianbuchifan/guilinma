@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
-
+import time
 
 st.title("test app")
-
+st.write(time.time())
 st.write(
     "We are so glad to see you here. ✨ "
     "This app is going to have a quick walkthrough with you on "

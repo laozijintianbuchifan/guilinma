@@ -12,8 +12,8 @@ payload = json.dumps({
       "dcs": [
         {
           "ct": 1,
-          "code": "HAK",
-          "name": "海口"
+          "code": "BJS",
+          "name": "北京"
         }
       ],
       "acs": [

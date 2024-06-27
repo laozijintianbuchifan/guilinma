@@ -1,6 +1,9 @@
 import requests
 import json
 import streamlit as st
+import time.time
+
+st.write(time.time())
 url = "https://m.ctrip.com/restapi/soa2/19728/fuzzySearch?_fxpcqlniredt=09031163218327913389&x-traceID=09031163218327913389-1719051584090-2667907"
 
 payload = json.dumps({

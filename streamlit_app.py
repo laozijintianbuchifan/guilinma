@@ -1,119 +1,70 @@
-import streamlit as st
-import pandas as pd
-import time
+import requests
+import json
 
-st.title("test app")
-st.write(time.time())
-st.write(
-    "We are so glad to see you here. ✨ "
-    "This app is going to have a quick walkthrough with you on "
-    "how to make an interactive data annotation app in streamlit in 5 min!"
-)
+url = "https://m.ctrip.com/restapi/soa2/19728/fuzzySearch?_fxpcqlniredt=09031163218327913389&x-traceID=09031163218327913389-1719051584090-2667907"
 
-st.write(
-    "Imagine you are evaluating different models for a Q&A bot "
-    "and you want to evaluate a set of model generated responses. "
-    "You have collected some user data. "
-    "Here is a sample question and response set."
-)
-
-data = {
-    "Questions": [
-        "Who invented the internet?",
-        "What causes the Northern Lights?",
-        "Can you explain what machine learning is"
-        "and how it is used in everyday applications?",
-        "How do penguins fly?",
-    ],
-    "Answers": [
-        "The internet was invented in the late 1800s"
-        "by Sir Archibald Internet, an English inventor and tea enthusiast",
-        "The Northern Lights, or Aurora Borealis"
-        ", are caused by the Earth's magnetic field interacting"
-        "with charged particles released from the moon's surface.",
-        "Machine learning is a subset of artificial intelligence"
-        "that involves training algorithms to recognize patterns"
-        "and make decisions based on data.",
-        " Penguins are unique among birds because they can fly underwater. "
-        "Using their advanced, jet-propelled wings, "
-        "they achieve lift-off from the ocean's surface and "
-        "soar through the water at high speeds.",
-    ],
+payload = json.dumps({
+  "tt": 1,
+  "source": "online_map",
+  "st": 18,
+  "segments": [
+    {
+      "dcs": [
+        {
+          "ct": 1,
+          "code": "HAK",
+          "name": "海口"
+        }
+      ],
+      "acs": [
+        {
+          "ct": 3,
+          "code": "DOMESTIC_ALL",
+          "name": "全中国"
+        }
+      ],
+      "dow": [],
+      "sr": None,
+      "drl": [
+        {
+          "begin": "2024-6-22",
+          "end": "2024-7-22"
+        }
+      ],
+      "ddate": None
+    }
+  ],
+  "filters": None,
+  "head": {
+    "cid": "09031163218327913389",
+    "ctok": "",
+    "cver": "1.0",
+    "lang": "01",
+    "sid": "8888",
+    "syscode": "999",
+    "auth": "",
+    "xsid": "",
+    "extension": []
+  }
+})
+headers = {
+  'accept': '*/*',
+  'accept-language': 'zh-CN,zh;q=0.9',
+  'content-type': 'application/json',
+  'cookie': 'UBT_VID=1718941212311.ffa662NVl7RG; GUID=09031163218327913389; _RSG=mXqkK4s_Mk4DOwlbpapCHA; _RDG=2824d64ab4e07e225534302efbfc58682a; _RGUID=4b96ff61-14bb-4870-a44c-ce4ce5bfa60d; _RF1=2409%3A8a5e%3Aa122%3A2440%3A8cb2%3Adefc%3Afa4a%3A943f; _abtest_userid=2bb8f078-868b-4719-b1b3-a3fc736ee6f8; _ubtstatus=%7B%22vid%22%3A%221718941212311.ffa662NVl7RG%22%2C%22sid%22%3A2%2C%22pvid%22%3A2%2C%22pid%22%3A600001375%7D; _bfaStatusPVSend=1; _bfaStatus=send; FlightIntl=Search=[%22HAK|%E6%B5%B7%E5%8F%A3(HAK)|42|HAK|480%22%2C%22HET|%E5%91%BC%E5%92%8C%E6%B5%A9%E7%89%B9(HET)|103|HET|480%22%2C%222024-06-25%22]; Union=OUID=&AllianceID=4897&SID=1520901&SourceID=&createtime=1719032845&Expires=1719637645264; MKT_OrderClick=ASID=48971520901&AID=4897&CSID=1520901&OUID=&CT=1719032845264&CURL=https%3A%2F%2Fflights.ctrip.com%2Fonline%2Fchannel%2Fdomestic%3Fallianceid%3D4897%26sid%3D1520901%26utm_medium%3Dbaidu%26utm_campaign%3Dty%26utm_source%3Dbaiduppc%26bd_creative%3D8005267900%26bd_vid%3D13451096799875603608%26keywordid%3D1186563087&VAL={}; nfes_isSupportWebP=1; MKT_CKID=1719032869056.0kizf.9fgl; _jzqco=%7C%7C%7C%7C1719032870447%7C1.861025259.1719032869059.1719032869059.1719032869059.1719032869059.1719032869059.0.0.0.1.1; _bfa=1.1718941212311.ffa662NVl7RG.1.1719032868779.1719051583983.3.1.10650052821',
+  'cookieorigin': 'https://flights.ctrip.com',
+  'origin': 'https://flights.ctrip.com',
+  'priority': 'u=1, i',
+  'referer': 'https://flights.ctrip.com/',
+  'sec-ch-ua': '"Not/A)Brand";v="8", "Chromium";v="126", "Google Chrome";v="126"',
+  'sec-ch-ua-mobile': '?0',
+  'sec-ch-ua-platform': '"Windows"',
+  'sec-fetch-dest': 'empty',
+  'sec-fetch-mode': 'cors',
+  'sec-fetch-site': 'same-site',
+  'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36'
 }
 
-df = pd.DataFrame(data)
-
-st.write(df)
-
-st.write(
-    "Now I want to evaluate the responses from my model. "
-    "One way to achieve this is to use the very powerful `st.data_editor` feature. "
-    "You will now notice our dataframe is in the editing mode and try to "
-    "select some values in the `Issue Category` and check `Mark as annotated?` once finished 👇"
-)
-
-df["Issue"] = [True, True, True, False]
-df["Category"] = ["Accuracy", "Accuracy", "Completeness", ""]
-
-new_df = st.data_editor(
-    df,
-    column_config={
-        "Questions": st.column_config.TextColumn(width="medium", disabled=True),
-        "Answers": st.column_config.TextColumn(width="medium", disabled=True),
-        "Issue": st.column_config.CheckboxColumn("Mark as annotated?", default=False),
-        "Category": st.column_config.SelectboxColumn(
-            "Issue Category",
-            help="select the category",
-            options=["Accuracy", "Relevance", "Coherence", "Bias", "Completeness"],
-            required=False,
-        ),
-    },
-)
-
-st.write(
-    "You will notice that we changed our dataframe and added new data. "
-    "Now it is time to visualize what we have annotated!"
-)
-
-st.divider()
-
-st.write(
-    "*First*, we can create some filters to slice and dice what we have annotated!"
-)
-
-col1, col2 = st.columns([1, 1])
-with col1:
-    issue_filter = st.selectbox("Issues or Non-issues", options=new_df.Issue.unique())
-with col2:
-    category_filter = st.selectbox(
-        "Choose a category",
-        options=new_df[new_df["Issue"] == issue_filter].Category.unique(),
-    )
-
-st.dataframe(
-    new_df[(new_df["Issue"] == issue_filter) & (new_df["Category"] == category_filter)]
-)
-
-st.markdown("")
-st.write(
-    "*Next*, we can visualize our data quickly using `st.metrics` and `st.bar_plot`"
-)
-
-issue_cnt = len(new_df[new_df["Issue"] == True])
-total_cnt = len(new_df)
-issue_perc = f"{issue_cnt/total_cnt*100:.0f}%"
-
-col1, col2 = st.columns([1, 1])
-with col1:
-    st.metric("Number of responses", issue_cnt)
-with col2:
-    st.metric("Annotation Progress", issue_perc)
-
-df_plot = new_df[new_df["Category"] != ""].Category.value_counts().reset_index()
-
-st.bar_chart(df_plot, x="Category", y="count")
-
-st.write(
-    "Here we are at the end of getting started with streamlit! Happy Streamlit-ing! :balloon:"
-)
+response = requests.request("POST", url, headers=headers, data=payload)
+st.title(response)
 
